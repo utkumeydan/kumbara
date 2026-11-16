@@ -1,10 +1,24 @@
 # Kumbara 🐢
 
+![Kumbara: paran nerede, ay sonunda ne kalacak, tek bakışta](docs/images/hero.png)
+
 Kişisel finans uygulaması: banka hesabın, kredi kartların, taksitlerin ve harcamaların tek yerde. Kumbara bugün hesabında ne olduğunu, maaş yatınca ve ödemeler düşünce ne kalacağını, her ay sonunda hesabının nerede olacağını gösterir.
 
 Tek kod tabanıyla iOS, Android ve web; arka uç kendi sunucunda tek komutla (`docker compose up`) çalışır.
 
 > **English:** Kumbara is a self-hostable personal finance app (iOS, Android, web) built with Expo and a Hono + PostgreSQL API. It tracks bank and card balances, installment plans and spending, and projects your balance month by month. The UI and docs are in Turkish; contributions in English are welcome. Run `docker compose up -d --build` and open http://localhost:8080; see [Kendi sunucunda kurulum](#kendi-sunucunda-kurulum) before exposing it to the internet and [LICENSE](LICENSE) (MIT).
+
+## Ekranlar
+
+| Özet | Harcama ekle | Ödemeler |
+|:---:|:---:|:---:|
+| <img src="docs/images/ozet.png" width="240" alt="Özet: bakiye, kart borcu, maaş sonrası durum"> | <img src="docs/images/ekle.png" width="240" alt="Harcama ekle: tuş takımı, kategori ve ödeme aracı"> | <img src="docs/images/odemeler.png" width="240" alt="Ödemeler: ay ay plan, ekstre içinde taksitler"> |
+| Bakiye, kart borcu, maaş yatınca ve ödemeler düşünce kalan | Telefona uygun tuş takımı, kategori ve ödeme aracı | Ay ay plan; taksitler kart ekstresinin içinde |
+| **Harcamalar** | **Hesaplar** | **Açık tema** |
+| <img src="docs/images/harcamalar.png" width="240" alt="Harcamalar: aylık toplam ve kategori dağılımı"> | <img src="docs/images/hesaplar.png" width="240" alt="Hesaplar: banka, kart ve borçlar"> | <img src="docs/images/ozet-acik.png" width="240" alt="Açık temada özet ekranı"> |
+| Aylık toplam, kategori dağılımı ve geçen ayla kıyas | Banka, kart, limit ve borçlar tek yerde | Koyu ve açık tema |
+
+Görsellerdeki tüm kişi ve tutarlar örnektir.
 
 ## Özellikler
 
