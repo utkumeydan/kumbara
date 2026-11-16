@@ -1,53 +1,93 @@
+<p align="right"><b>English</b> · <a href="README.tr.md">Türkçe</a></p>
+
 # Kumbara 🐢
 
-![Kumbara: paran nerede, ay sonunda ne kalacak, tek bakışta](docs/images/hero.png)
+![Kumbara: where your money is and what will be left at the end of the month, at a glance](docs/images/hero.png)
 
-Kişisel finans uygulaması: banka hesabın, kredi kartların, taksitlerin ve harcamaların tek yerde. Kumbara bugün hesabında ne olduğunu, maaş yatınca ve ödemeler düşünce ne kalacağını, her ay sonunda hesabının nerede olacağını gösterir.
+A personal finance app that puts your bank accounts, credit cards, installments and spending in one place. Kumbara shows what is in your account today, what will be left once your salary arrives and your payments go out, and where your balance will be at the end of each month.
 
-Tek kod tabanıyla iOS, Android ve web; arka uç kendi sunucunda tek komutla (`docker compose up`) çalışır.
+One codebase for iOS, Android and the web. The backend runs on your own server with a single command (`docker compose up`).
 
-> **English:** Kumbara is a self-hostable personal finance app (iOS, Android, web) built with Expo and a Hono + PostgreSQL API. It tracks bank and card balances, installment plans and spending, and projects your balance month by month. The UI and docs are in Turkish; contributions in English are welcome. Run `docker compose up -d --build` and open http://localhost:8080; see [Kendi sunucunda kurulum](#kendi-sunucunda-kurulum) before exposing it to the internet and [LICENSE](LICENSE) (MIT).
+> The app's interface is currently in Turkish (amounts in Turkish lira). Translations are welcome; see [Contributing](#contributing).
 
-## Ekranlar
+## Screens
 
-| Özet | Harcama ekle | Ödemeler |
+| Overview | Add expense | Payments |
 |:---:|:---:|:---:|
-| <img src="docs/images/ozet.png" width="240" alt="Özet: bakiye, kart borcu, maaş sonrası durum"> | <img src="docs/images/ekle.png" width="240" alt="Harcama ekle: tuş takımı, kategori ve ödeme aracı"> | <img src="docs/images/odemeler.png" width="240" alt="Ödemeler: ay ay plan, ekstre içinde taksitler"> |
-| Bakiye, kart borcu, maaş yatınca ve ödemeler düşünce kalan | Telefona uygun tuş takımı, kategori ve ödeme aracı | Ay ay plan; taksitler kart ekstresinin içinde |
-| **Harcamalar** | **Hesaplar** | **Açık tema** |
-| <img src="docs/images/harcamalar.png" width="240" alt="Harcamalar: aylık toplam ve kategori dağılımı"> | <img src="docs/images/hesaplar.png" width="240" alt="Hesaplar: banka, kart ve borçlar"> | <img src="docs/images/ozet-acik.png" width="240" alt="Açık temada özet ekranı"> |
-| Aylık toplam, kategori dağılımı ve geçen ayla kıyas | Banka, kart, limit ve borçlar tek yerde | Koyu ve açık tema |
+| <img src="docs/images/ozet.png" width="240" alt="Overview: balance, card debt and the balance after payday"> | <img src="docs/images/ekle.png" width="240" alt="Add expense: keypad, category and payment method"> | <img src="docs/images/odemeler.png" width="240" alt="Payments: monthly plan with installments inside the card statement"> |
+| Balance, card debt, and what is left after payday and upcoming payments | Phone-friendly keypad, category and payment method | Month-by-month plan; installments shown inside the card statement |
+| **Spending** | **Accounts** | **Light theme** |
+| <img src="docs/images/harcamalar.png" width="240" alt="Spending: monthly total and category breakdown"> | <img src="docs/images/hesaplar.png" width="240" alt="Accounts: bank, card and debts"> | <img src="docs/images/ozet-acik.png" width="240" alt="Overview screen in the light theme"> |
+| Monthly total, category breakdown and comparison with last month | Bank, card, limits and debts in one place | Dark and light themes |
 
-Görsellerdeki tüm kişi ve tutarlar örnektir.
+All people and amounts in the screenshots are fictional.
 
-## Özellikler
+## Features
 
-- **Özet:** banka bakiyesi, kart borcu ve kart dahil net durum; sıradaki maaş yatınca ve sonraki maaşa kadarki ödemeler düşünce hesapta kalan; önümüzdeki ay sonlarının tahmini
-- **Ödemeler:** takvim ayına göre plan; kredi kartı taksitleri ait oldukları ekstrenin içinde, krediler ayrı; banka uygulamasındaki taksit listesini yapıştırarak ekleme; maaş geliri ve her ay sonunda hesapta kalan
-- **Hesaplar:** banka, kredi kartı ve nakit hesapları; esnek hesap (KMH), kart limiti, provizyon ve ekstre; eksi bakiye ve taksit kaynakları Borçlarım'a kendiliğinden düşer
-- **Harcama ekle:** telefona uygun tuş takımı (web'de klavye de çalışır), kategori, ödeme aracı (kart borcuna ya da hesap bakiyesine yansır), favoriler, `#etiket`ler
-- **Harcamalar:** ay ay toplam, kategori dağılımı, en çok harcanan yerler, geçen ayla kıyas ve tasarruf önerileri; tüm hareketlerde arama
-- **Sabit giderler:** kira, aidat, abonelik gibi aylık ödemeler; ödeme günü, başlangıç tarihi ve erken ödenen ayın plana iki kez girmemesi
-- **Birikim hedefleri**, **ortak alan** (davet koduyla paylaşılan bütçe ve hesaplaşma), **CSV içe aktarma**, **JSON yedek ve geri yükleme**
-- **Çevrimdışı kullanım:** internet yokken eklenen harcamalar sıraya alınır, bağlantı gelince gönderilir
-- **Bildirimler, widget'lar, kısayollar, Apple Watch** ve iOS Canlı Etkinlik
-- **Giriş:** e-posta, Apple ve Google; kayıt olmadan örnek verilerle deneme
+- **Overview:** bank balance, card debt and net position including cards; what will be left after the next payday and after the payments due before the following one; projected balance at the end of the coming months
+- **Payments:** a calendar-month plan; credit card installments are shown inside the statement they belong to, loans separately; add installments by pasting the list from your banking app; salary income and the balance left at the end of every month
+- **Accounts:** bank, credit card and cash accounts; overdraft, card limit, pending transactions and statements; negative balances and installment plans flow into Debts automatically
+- **Add expense:** a phone-friendly keypad (the keyboard works on the web), category, payment method (adds to card debt or reduces the bank balance), favourites and `#tags`
+- **Spending:** monthly totals, category breakdown, top places, comparison with last month and saving tips; search across all transactions
+- **Fixed costs:** rent, building fees, subscriptions and other monthly payments, with a due day, a start date, and early payments counted only once in the plan
+- **Savings goals**, **shared spaces** (a budget shared through an invite code, with settle-up), **CSV import**, **JSON backup and restore**
+- **Offline use:** expenses added without a connection are queued and sent when you are back online
+- **Notifications, widgets, shortcuts, Apple Watch** and iOS Live Activities
+- **Sign-in:** email, Apple and Google; try it with sample data without signing up
 
-Tutarlar veritabanında kuruş cinsinden tamsayı olarak tutulur.
+Amounts are stored as integer kuruş (1/100 of a lira).
 
-## Yapı
+## Quick start
+
+All you need is Docker; no configuration required:
+
+```bash
+git clone https://github.com/utkumeydan/kumbara.git && cd kumbara
+docker compose up -d --build
+```
+
+Open http://localhost:8080. Create an account, or start with sample data via "Kayıt olmadan örnek verilerle dene" (try without signing up). Database tables are created the first time the API starts.
+
+## Self-hosting
+
+Before exposing it to the internet:
+
+1. Copy `.env.example` to `.env` and set at least:
+   - `POSTGRES_PASSWORD`: a long, random database password
+   - `APP_URL`: the public address of the app, e.g. `https://kumbara.example.com` (used in password reset links)
+2. `docker compose up -d --build`
+3. Put a TLS-terminating reverse proxy in front (Caddy, Traefik, nginx) and route it only to the `web` service (port 8080 by default). The nginx inside `web` forwards `/api` requests to the `api` service; the database and the API are not exposed.
+4. The `backup` service takes a backup every night (kept for 7 days, 4 weeks and 6 months). To restore:
+   `gunzip -c /backups/daily/kumbara-….sql.gz | docker compose exec -T db psql -U kumbara kumbara`
+
+On panels such as [Coolify](https://coolify.io), add the repository as a "Docker Compose" resource, set the same variables in the panel and assign your domain to the `web` service.
+
+Optional settings:
+
+| Feature | Server (`api`) | App (`EXPO_PUBLIC_…`) |
+|---|---|---|
+| Password reset email | `SMTP_URL`, `MAIL_FROM` | — |
+| Sign in with Google | `GOOGLE_CLIENT_IDS` | `GOOGLE_WEB_CLIENT_ID`, `GOOGLE_IOS_CLIENT_ID`, `GOOGLE_ANDROID_CLIENT_ID` |
+| Sign in with Apple | `APPLE_CLIENT_IDS` (bundle identifier) | — |
+| Kumbara+ | `RC_WEBHOOK_SECRET` (RevenueCat webhook: `https://…/api/webhooks/revenuecat`) | `RC_IOS_KEY`, `RC_ANDROID_KEY` |
+| Push notifications | `EXPO_ACCESS_TOKEN` | EAS project ID (`npx eas-cli@latest init`) |
+| Error tracking | `SENTRY_DSN` | `SENTRY_DSN`; for source maps `SENTRY_ORG`, `SENTRY_PROJECT`, `SENTRY_AUTH_TOKEN` |
+
+Without `SMTP_URL`, password reset links are written to the API log; configure SMTP in production. See [SECURITY.md](SECURITY.md) for other security notes.
+
+## Project structure
 
 ```
 apps/
-  api/      Hono + Drizzle ORM + PostgreSQL (Node 24), Vitest testleri
-  mobile/   Expo SDK 58 + Expo Router (iOS / Android / web), web için nginx imajı
-e2e/        Playwright ile derlenmiş web uygulamasında uçtan uca testler
-docker-compose.yml   db + api + web + gece yedeği
+  api/      Hono + Drizzle ORM + PostgreSQL (Node 24), Vitest tests
+  mobile/   Expo SDK 58 + Expo Router (iOS / Android / web), nginx image for the web
+e2e/        Playwright end-to-end tests against the built web app
+docker-compose.yml   db + api + web + nightly backup
 ```
 
-## Yerelde çalıştırma
+## Running locally
 
-PostgreSQL gerekmez: `DATABASE_URL` tanımlı değilse API gömülü PGlite kullanır (`apps/api/.pglite`).
+No PostgreSQL needed: without `DATABASE_URL` the API uses embedded PGlite (`apps/api/.pglite`).
 
 ```bash
 cd apps/api && npm install && npm run dev
@@ -57,97 +97,59 @@ cd apps/api && npm install && npm run dev
 cd apps/mobile && npm install && npx expo start
 ```
 
-Expo terminalinde `w` web'i açar. API adresi geliştirmede varsayılan olarak `http://localhost:3000`; değiştirmek için `apps/mobile/.env.example` dosyasını `.env` olarak kopyala.
+Press `w` in the Expo terminal to open the web app. In development the API address defaults to `http://localhost:3000`; to change it, copy `apps/mobile/.env.example` to `.env`.
 
-Geliştirme ortamında Kumbara+ özellikleri Menü › Kumbara+ › "Kumbara+'ı dene (geliştirme)" ile açılır. Bu düğme yalnızca `NODE_ENV=development` ya da `test` iken (veya `ALLOW_DEV_BILLING=1` ile) çalışır.
+In development, Kumbara+ features can be enabled from Menü › Kumbara+ › "Kumbara+'ı dene (geliştirme)". The button only works with `NODE_ENV=development` or `test` (or `ALLOW_DEV_BILLING=1`).
 
-Bildirimler, widget, kısayollar, Apple ile giriş ve satın alma yerel modül gerektirir; Expo Go'da değil, geliştirme derlemesinde çalışır:
+Notifications, widgets, shortcuts, Sign in with Apple and purchases need native modules, so they run in a development build rather than Expo Go:
 
 ```bash
 cd apps/mobile && npx eas-cli@latest build --profile development --platform ios
 ```
 
-## Testler
+## Tests
 
 ```bash
-cd apps/api && npm test          # API testleri, bellek içi veritabanıyla
+cd apps/api && npm test          # API tests with an in-memory database
 ```
 
 ```bash
 cd e2e && npm install && npx playwright install chromium && npx playwright test
 ```
 
-Uçtan uca testler API'yi ve derlenmiş web uygulamasını kendileri başlatır. Web sunucusu üretimdeki güvenlik başlıklarını (`apps/mobile/security-headers.conf`) kullanır; bir değişiklik Content Security Policy'ye takılırsa testler düşer.
+The end-to-end tests start the API and the built web app themselves. The test web server sends the production security headers (`apps/mobile/security-headers.conf`), so a change that trips the Content Security Policy fails the tests.
 
-Yerel uygulama akışları için Maestro senaryoları `apps/mobile/.maestro/` altındadır.
+Maestro flows for the native app live in `apps/mobile/.maestro/`.
 
-GitHub Actions (`.github/workflows/ci.yml`) her gönderimde API testlerini, mobil tip kontrolü ve lint'i, uçtan uca testleri ve Docker derlemelerini çalıştırır.
+GitHub Actions (`.github/workflows/ci.yml`) runs the API tests, mobile type check and lint, the end-to-end tests and the Docker builds on every push.
 
-## Hızlı başlangıç
+## Building the mobile app
 
-Docker yeterli; hiçbir ayar gerekmez:
+For your own build:
 
-```bash
-git clone <bu depo> kumbara && cd kumbara
-docker compose up -d --build
-```
-
-Uygulama http://localhost:8080 adresinde açılır. Hesap oluşturabilir ya da "Kayıt olmadan örnek verilerle dene" ile örnek verilerle başlayabilirsin. Veritabanı tabloları API ilk açıldığında oluşturulur.
-
-## Kendi sunucunda kurulum
-
-İnternete açmadan önce:
-
-1. `.env.example` dosyasını `.env` olarak kopyala ve en az şunları doldur:
-   - `POSTGRES_PASSWORD`: uzun ve rastgele bir veritabanı şifresi
-   - `APP_URL`: uygulamanın genel adresi, ör. `https://kumbara.example.com` (şifre sıfırlama bağlantıları bu adresle gönderilir)
-2. `docker compose up -d --build`
-3. Önüne TLS sonlandıran bir ters vekil koy (Caddy, Traefik, nginx) ve yalnızca `web` servisine (varsayılan 8080) yönlendir. `/api` istekleri web içindeki nginx tarafından `api` servisine iletilir; veritabanı ve API dışarı açılmaz.
-4. `backup` servisi her gece yedek alır (7 gün, 4 hafta, 6 ay). Geri yüklemek için:
-   `gunzip -c /backups/daily/kumbara-….sql.gz | docker compose exec -T db psql -U kumbara kumbara`
-
-[Coolify](https://coolify.io) gibi panellerde depoyu "Docker Compose" kaynağı olarak ekleyip aynı değişkenleri panelden tanımlayabilirsin; bu durumda `web` servisine alan adı ver.
-
-İsteğe bağlı ayarlar:
-
-| Özellik | Sunucu (`api`) | Uygulama (`EXPO_PUBLIC_…`) |
-|---|---|---|
-| Şifre sıfırlama e-postası | `SMTP_URL`, `MAIL_FROM` | — |
-| Google ile giriş | `GOOGLE_CLIENT_IDS` | `GOOGLE_WEB_CLIENT_ID`, `GOOGLE_IOS_CLIENT_ID`, `GOOGLE_ANDROID_CLIENT_ID` |
-| Apple ile giriş | `APPLE_CLIENT_IDS` (paket kimliği) | — |
-| Kumbara+ | `RC_WEBHOOK_SECRET` (RevenueCat webhook'u: `https://…/api/webhooks/revenuecat`) | `RC_IOS_KEY`, `RC_ANDROID_KEY` |
-| Push bildirimleri | `EXPO_ACCESS_TOKEN` | EAS proje kimliği (`npx eas-cli@latest init`) |
-| Hata takibi | `SENTRY_DSN` | `SENTRY_DSN`; kaynak eşlemesi için `SENTRY_ORG`, `SENTRY_PROJECT`, `SENTRY_AUTH_TOKEN` |
-
-`SMTP_URL` tanımlı değilse şifre sıfırlama bağlantıları API günlüğüne yazılır; üretimde SMTP tanımlaman önerilir. Güvenlikle ilgili diğer notlar için [SECURITY.md](SECURITY.md).
-
-## Mobil uygulama derlemesi
-
-Kendi derlemen için:
-
-1. `npx eas-cli@latest init` ile kendi EAS projeni oluştur; hesabını ve proje kimliğini `app.json`'a ekler.
-2. `app.json` içindeki paket kimliklerini (`com.kumbara.app`) kendine ait bir kimlikle değiştir (mağazada yayımlayacaksan zorunlu).
-3. API adresini EAS'e tanımla: `npx eas-cli@latest env:create --name EXPO_PUBLIC_API_URL --value https://kumbara.example.com`
-4. Android için `google-services.json` dosyasını EAS'e gizli dosya olarak (`GOOGLE_SERVICES_JSON`) yükle; depoya koyma.
+1. Create your own EAS project with `npx eas-cli@latest init`; it adds your account and project ID to `app.json`.
+2. Replace the bundle identifiers in `app.json` (`com.kumbara.app`) with your own (required to publish to the stores).
+3. Set the API address in EAS: `npx eas-cli@latest env:create --name EXPO_PUBLIC_API_URL --value https://kumbara.example.com`
+4. For Android, upload `google-services.json` to EAS as a secret file (`GOOGLE_SERVICES_JSON`); never commit it.
 
 ```bash
 cd apps/mobile && npx eas-cli@latest build --platform all
 ```
 
-Apple Watch uygulaması `apps/mobile/targets/watch` altındadır. Sunucu adresi `targets/watch/Info.plist` içindeki `KumbaraAPIURL` anahtarındadır; derlemek için `app.json` içinde `ios.appleTeamId` tanımlanmalıdır.
+The Apple Watch app lives in `apps/mobile/targets/watch`. Its server address is the `KumbaraAPIURL` key in `targets/watch/Info.plist`; building it requires `ios.appleTeamId` in `app.json`.
 
-## Veritabanı şeması değişikliği
+## Database schema changes
 
 ```bash
 cd apps/api && npm run db:generate
 ```
 
-Yeni migration dosyası `apps/api/drizzle/` altına yazılır ve API bir sonraki açılışta uygular.
+The new migration is written to `apps/api/drizzle/` and applied the next time the API starts.
 
-## Katkı
+## Contributing
 
-Katkılar memnuniyetle karşılanır; ayrıntılar [CONTRIBUTING.md](CONTRIBUTING.md) içinde. Güvenlik açığı bildirimleri için lütfen herkese açık issue açma, [SECURITY.md](SECURITY.md) adımlarını izle.
+Contributions are welcome; see [CONTRIBUTING.md](CONTRIBUTING.md). Please do not report security issues in public issues; follow [SECURITY.md](SECURITY.md) instead.
 
-## Lisans
+## License
 
 [MIT](LICENSE)

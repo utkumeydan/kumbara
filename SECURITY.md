@@ -1,10 +1,10 @@
+<p align="right"><a href="#security-policy">English</a> · <b>Türkçe</b></p>
+
 # Güvenlik
 
 ## Açık bildirme
 
 Bir güvenlik açığı bulduysan lütfen herkese açık issue açma. GitHub'da bu deponun **Security › Report a vulnerability** sayfasından gizli bildirim gönder. Bildirimi aldığımızı birkaç gün içinde yanıtlar, düzeltme yayımlanana kadar ayrıntıları gizli tutarız.
-
-Please do not open public issues for security problems. Use **Security › Report a vulnerability** on GitHub to send a private report.
 
 ## Uygulamadaki önlemler
 
@@ -24,3 +24,30 @@ Please do not open public issues for security problems. Use **Security › Repor
 - **Geliştirici aboneliği:** `ALLOW_DEV_BILLING=1` üretimde tanımlanmamalı; herkesin kendine Kumbara+ açmasına izin verir.
 - **Varsayılan şifre:** `docker compose` ayarsız çalışsın diye veritabanı şifresi varsayılan olarak `kumbara`dır. Veritabanı dışarı açılmaz ama internete açık her kurulumda `POSTGRES_PASSWORD` değiştirilmelidir.
 - **Gizli dosyalar:** `.env`, `google-services.json` ve Firebase hizmet hesabı anahtarları depoya eklenmez (`.gitignore`). EAS derlemelerinde gizli dosya değişkenleri kullan.
+
+---
+
+## Security policy
+
+### Reporting a vulnerability
+
+Please do not open public issues for security problems. Use **Security › Report a vulnerability** on this repository to send a private report. We will acknowledge it within a few days and keep the details private until a fix is released.
+
+### What the app does
+
+- **Sessions:** 32-byte random tokens; only their SHA-256 hash is stored. Changing the password ends other sessions; a reset ends all of them.
+- **Passwords:** bcrypt. Reset links are 256-bit, single-use and valid for one hour.
+- **Social sign-in:** Apple and Google ID tokens are verified (signature, issuer, audience). When a social login is linked to an account whose email ownership was never proven, that account's password and sessions are removed, so a pre-registered account cannot be used to take over the real owner's data.
+- **Authorization:** every record is scoped to the caller or to a shared space they belong to. Invite codes are revoked when a member is removed; only the owner can restore a shared space.
+- **Limits:** rate limits on sign-in, sign-up, password reset, demo accounts, invites and watch pairing; request bodies are capped at 1 MB (25 MB for backup restore).
+- **Web:** Content Security Policy, `X-Frame-Options: DENY`, `nosniff`, HSTS and a permissions policy (`apps/mobile/security-headers.conf`).
+- **CSV export:** notes starting with `=`, `+`, `-` or `@` are escaped so they do not run as formulas.
+- **Error tracking:** only the path and method are sent to Sentry; no personal data.
+
+### When self-hosting
+
+- **Reverse proxy and client IP:** rate limits read the client IP from the first `X-Forwarded-For` value. Your reverse proxy (Traefik, Caddy, …) must drop any client-supplied `X-Forwarded-For` and set its own, otherwise the limits can be bypassed. Do not expose the API directly; expose only the `web` service.
+- **Email:** without `SMTP_URL`, password reset links are written to the API log, where anyone with log access can see them. Configure SMTP in production.
+- **Developer subscription:** never set `ALLOW_DEV_BILLING=1` in production; it lets anyone enable Kumbara+ for themselves.
+- **Default password:** so that `docker compose` works without configuration, the database password defaults to `kumbara`. The database is not exposed, but change `POSTGRES_PASSWORD` on any internet-facing install.
+- **Secret files:** `.env`, `google-services.json` and Firebase service account keys are never committed (`.gitignore`). Use secret file variables for EAS builds.
