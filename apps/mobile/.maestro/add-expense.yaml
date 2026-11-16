@@ -1,0 +1,22 @@
+# Tuş takımıyla harcama ekleme ve zarfın kalan tutarının güncellenmesi
+appId: com.kumbara.app
+---
+- launchApp:
+    clearState: true
+- tapOn: 'Kayıt olmadan örnek verilerle dene'
+- assertVisible: 'harcamak için kaldı.'
+- tapOn:
+    text: 'Harcama ekle'
+    index: 0
+- assertVisible: 'zarfından.'
+- tapOn: '1'
+- tapOn: '2'
+- tapOn: '5'
+- tapOn: 'Not'
+- inputText: 'Simit #maestro'
+- hideKeyboard
+- tapOn: '₺125 ekle'
+- assertVisible: 'harcamak için kaldı.'
+- tapOn: 'Menü'
+- tapOn: 'Etiketler'
+- assertVisible: '#maestro'

@@ -1,0 +1,14 @@
+# Meydan okumalar ve kaplumbağa seviyesi
+appId: com.kumbara.app
+---
+- launchApp:
+    clearState: true
+- tapOn: 'Kayıt olmadan örnek verilerle dene'
+- tapOn: 'Menü'
+- tapOn: 'Meydan okumalar ve rozetler'
+- assertVisible: 'Her gün kayıt'
+- scrollUntilVisible:
+    element: 'İlk adım'
+- back
+- tapOn: 'Seviye 1'
+- assertVisible: 'Kaplumbağan'

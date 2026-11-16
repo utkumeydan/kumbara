@@ -1,0 +1,1 @@
+ALTER TABLE "envelopes" ADD COLUMN "planned_from" date;

@@ -1,0 +1,89 @@
+# Kumbara: veritabanı + API + web + gece yedeği
+#
+#   docker compose up -d --build    → http://localhost:8080
+#
+# Hiçbir ayar yapmadan yerelde çalışır. İnternete açmadan önce .env dosyasında en az
+# POSTGRES_PASSWORD ve APP_URL'i değiştir ve önüne TLS sonlandıran bir ters vekil koy (bkz. README).
+# /api istekleri web içindeki nginx üzerinden api servisine gider; yalnızca web servisi dışarı açılır.
+services:
+  db:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: kumbara
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-kumbara}
+      POSTGRES_DB: kumbara
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U kumbara"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  api:
+    build: ./apps/api
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      NODE_ENV: production
+      DATABASE_URL: postgres://kumbara:${POSTGRES_PASSWORD:-kumbara}@db:5432/kumbara
+      # Uygulamanın kullanıcılara görünen adresi (şifre sıfırlama bağlantıları ve CORS için)
+      APP_URL: ${APP_URL:-http://localhost:8080}
+      # Yalnızca web dışında ayrı bir adresten çağıran istemciler için (virgülle ayrılmış)
+      CORS_ORIGINS: ${CORS_ORIGINS:-}
+      APP_TZ: ${APP_TZ:-Europe/Istanbul}
+      # İsteğe bağlı: e-posta (yoksa sıfırlama bağlantıları API günlüğüne yazılır)
+      SMTP_URL: ${SMTP_URL:-}
+      MAIL_FROM: ${MAIL_FROM:-Kumbara <no-reply@example.com>}
+      # İsteğe bağlı: Apple / Google ile giriş (virgülle ayrılmış istemci kimlikleri)
+      GOOGLE_CLIENT_IDS: ${GOOGLE_CLIENT_IDS:-}
+      APPLE_CLIENT_IDS: ${APPLE_CLIENT_IDS:-}
+      # İsteğe bağlı: RevenueCat webhook'u (Kumbara+ aboneliği)
+      RC_WEBHOOK_SECRET: ${RC_WEBHOOK_SECRET:-}
+      # İsteğe bağlı: Expo push (yüksek hacim için erişim anahtarı) ve Sentry hata takibi
+      EXPO_ACCESS_TOKEN: ${EXPO_ACCESS_TOKEN:-}
+      SENTRY_DSN: ${SENTRY_DSN:-}
+    expose:
+      - "3000"
+
+  web:
+    build:
+      context: ./apps/mobile
+      args:
+        # Boş bırakılırsa web uygulaması API'yi kendi adresinden (/api) çağırır
+        EXPO_PUBLIC_API_URL: ${EXPO_PUBLIC_API_URL:-}
+        EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID: ${EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID:-}
+        EXPO_PUBLIC_SENTRY_DSN: ${EXPO_PUBLIC_SENTRY_DSN:-}
+    restart: unless-stopped
+    depends_on:
+      - api
+    ports:
+      - "${WEB_PORT:-8080}:80"
+
+  # Her gece veritabanı yedeği: son 7 gün, 4 hafta ve 6 ay saklanır (backups birimi)
+  backup:
+    image: prodrigestivill/postgres-backup-local:17
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      POSTGRES_HOST: db
+      POSTGRES_DB: kumbara
+      POSTGRES_USER: kumbara
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-kumbara}
+      SCHEDULE: ${BACKUP_SCHEDULE:-@daily}
+      BACKUP_KEEP_DAYS: 7
+      BACKUP_KEEP_WEEKS: 4
+      BACKUP_KEEP_MONTHS: 6
+      TZ: ${APP_TZ:-Europe/Istanbul}
+      HEALTHCHECK_PORT: 8080
+    volumes:
+      - backups:/backups
+
+volumes:
+  pgdata:
+  backups:

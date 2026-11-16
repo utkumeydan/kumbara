@@ -1,0 +1,125 @@
+{
+  "expo": {
+    "name": "Kumbara",
+    "slug": "kumbara",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/icon.png",
+    "scheme": "kumbara",
+    "userInterfaceStyle": "automatic",
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.kumbara.app",
+      "usesAppleSignIn": true,
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#E6F4FE",
+        "foregroundImage": "./assets/images/android-icon-foreground.png",
+        "backgroundImage": "./assets/images/android-icon-background.png",
+        "monochromeImage": "./assets/images/android-icon-monochrome.png"
+      },
+      "predictiveBackGestureEnabled": false,
+      "package": "com.kumbara.app"
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "single",
+      "favicon": "./assets/images/favicon.png",
+      "name": "Kumbara",
+      "shortName": "Kumbara",
+      "themeColor": "#e8618c",
+      "backgroundColor": "#f6f4ef"
+    },
+    "plugins": [
+      [
+        "expo-router",
+        {
+          "asyncRoutes": {
+            "web": false
+          }
+        }
+      ],
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/images/splash-icon.png",
+          "resizeMode": "contain",
+          "backgroundColor": "#f6f4ef"
+        }
+      ],
+      "expo-secure-store",
+      "expo-notifications",
+      "expo-apple-authentication",
+      "expo-quick-actions",
+      [
+        "expo-widgets",
+        {
+          "widgets": [
+            {
+              "name": "BudgetWidget",
+              "displayName": "Kalan",
+              "description": "Maaşa kadar harcayabileceğin tutar",
+              "ios": {
+                "supportedFamilies": [
+                  "systemSmall",
+                  "systemMedium",
+                  "accessoryRectangular",
+                  "accessoryInline"
+                ]
+              },
+              "android": {
+                "targetCellWidth": 2,
+                "targetCellHeight": 2,
+                "minWidth": 150,
+                "minHeight": 150,
+                "resizeMode": "both",
+                "initialLayout": "./widgets/BudgetWidget.android.tsx"
+              }
+            }
+          ],
+          "enableAndroid": true
+        }
+      ],
+      "@sentry/react-native",
+      "expo-sharing",
+      "@bacons/apple-targets"
+    ],
+    "experiments": {
+      "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "asyncRoutes": {
+          "web": false
+        }
+      },
+      "eas": {
+        "build": {
+          "experimental": {
+            "ios": {
+              "appExtensions": [
+                {
+                  "targetName": "ExpoWidgetsTarget",
+                  "bundleIdentifier": "com.kumbara.app.ExpoWidgetsTarget",
+                  "entitlements": {
+                    "com.apple.security.application-groups": [
+                      "group.com.kumbara.app"
+                    ]
+                  }
+                },
+                {
+                  "bundleIdentifier": "com.kumbara.app.watchkitapp",
+                  "targetName": "KumbaraWatch"
+                }
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+}

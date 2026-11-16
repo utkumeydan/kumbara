@@ -1,0 +1,12 @@
+# Misafir hesabıyla açılış: ana ekranın dolu geldiğini doğrular
+appId: com.kumbara.app
+---
+- launchApp:
+    clearState: true
+- tapOn: 'Kayıt olmadan örnek verilerle dene'
+- assertVisible: 'harcamak için kaldı.'
+- assertVisible: 'Misafir modundasın'
+- tapOn: 'Zarflar'
+- assertVisible: 'Hareketler'
+- tapOn: 'Analiz'
+- assertVisible: 'Kişisel enflasyon'
